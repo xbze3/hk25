@@ -1,0 +1,56 @@
+const express = require("express");
+const router = express.Router();
+const Report = require("../models/Report");
+const Organization = require("../models/Organization");
+const User = require("../models/User");
+
+router.post("/report", async (req, res) => {
+    try {
+        const {
+            severity,
+            location,
+            details,
+            isAnonymous,
+            organizationName,
+            userEmail,
+        } = req.body;
+
+        const organization = await Organization.findOne({
+            name: organizationName,
+        });
+
+        if (!organization) {
+            return res.status(404).json({ message: "Organization not found" });
+        }
+
+        let reportedBy = null;
+        if (!isAnonymous && userEmail) {
+            const user = await User.findOne({ email: userEmail.toLowerCase() });
+            if (!user) {
+                return res.status(404).json({ message: "User not found" });
+            }
+            reportedBy = user._id;
+        }
+
+        const newReport = new Report({
+            title: `${severity} Report`,
+            description: details,
+            category: "Safety",
+            severity,
+            location: location
+                ? { lat: location[0], lng: location[1] }
+                : undefined,
+            isAnonymous,
+            organization: organization._id,
+            reportedBy: reportedBy,
+        });
+
+        await newReport.save();
+        res.status(201).json({ message: "Report submitted successfully" });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Failed to submit report" });
+    }
+});
+
+module.exports = router;

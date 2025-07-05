@@ -10,7 +10,7 @@ import axios from "axios";
 function OrgListItem() {
     const [showModal, setShowModal] = useState(false);
     const [selectedOrg, setSelectedOrg] = useState("");
-    const [organizations, setOrganizations] = useState([]);
+    const [organizations, setOrganizations] = useState<any[]>([]);
     const [searchQuery, setSearchQuery] = useState("");
 
     const handleOpenReport = (orgName: string) => {
@@ -19,13 +19,22 @@ function OrgListItem() {
     };
 
     const handleSearch = async () => {
+        if (!searchQuery.trim()) {
+            setOrganizations([]);
+            return;
+        }
+
         try {
             const response = await axios.get(
-                `http://localhost:8080/api/organizations/search?query=${searchQuery}`
+                "http://localhost:8081/search/organizations",
+                {
+                    params: { name: searchQuery.trim() },
+                }
             );
             setOrganizations(response.data);
         } catch (error) {
             console.error("Failed to fetch organizations:", error);
+            setOrganizations([]);
         }
     };
 
@@ -50,7 +59,7 @@ function OrgListItem() {
 
             <ListGroup variant="flush" id="result-group">
                 {organizations.map((org: any) => (
-                    <ListGroup.Item key={org.id} id="result-item">
+                    <ListGroup.Item key={org.id || org._id} id="result-item">
                         <div id="list-item-content">
                             <div
                                 className="d-flex flex-column pe-3"

@@ -1,7 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import "../components-css/ReportModel.css";
 import ReportMap from "./ReportMap";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { jwtDecode } from "jwt-decode";
 
 interface ReportModalProps {
     show: boolean;
@@ -11,14 +14,28 @@ interface ReportModalProps {
 
 function ReportModal({ show, handleClose, orgName }: ReportModalProps) {
     const [form, setForm] = useState({
-        severity: "low",
+        severity: "Low",
         location: null as [number, number] | null,
         details: "",
-        isAnonymous: false,
+        isAnonymous: true,
         media: null as File | null,
     });
 
-    // const [location, setLocation] = useState<[number, number] | null>(null);
+    const [userEmail, setUserEmail] = useState<string | null>(null);
+
+    useEffect(() => {
+        const token = localStorage.getItem("authToken");
+        if (token) {
+            try {
+                const decoded: any = jwtDecode(token);
+                setUserEmail(decoded.email || null);
+                console.log(decoded.email);
+            } catch (err) {
+                console.error("Failed to decode JWT:", err);
+                setUserEmail(null);
+            }
+        }
+    }, []);
 
     const handleChange = (
         e: React.ChangeEvent<
@@ -38,10 +55,27 @@ function ReportModal({ show, handleClose, orgName }: ReportModalProps) {
         }));
     };
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log("Report submitted:", { ...form, organization: orgName });
-        handleClose();
+
+        try {
+            const payload = {
+                severity: form.severity,
+                location: form.location,
+                details: form.details,
+                isAnonymous: form.isAnonymous,
+                organizationName: orgName,
+                userEmail: form.isAnonymous ? null : userEmail,
+            };
+
+            await axios.post("http://localhost:8081/report", payload);
+
+            toast.success("Report submitted successfully.");
+            handleClose();
+        } catch (err: any) {
+            console.error(err);
+            toast.error("Failed to submit report.");
+        }
     };
 
     return (
@@ -93,23 +127,6 @@ function ReportModal({ show, handleClose, orgName }: ReportModalProps) {
                             required
                         />
                     </Form.Group>
-
-                    {/* <Form.Group className="mb-3">
-                        <Form.Label>Attach Media</Form.Label>
-                        <Form.Control
-                            type="file"
-                            name="media"
-                            onChange={handleChange}
-                        />
-                    </Form.Group> */}
-
-                    {/* <Form.Check
-                        type="checkbox"
-                        label="Submit anonymously"
-                        name="isAnonymous"
-                        checked={form.isAnonymous}
-                        onChange={handleChange}
-                    /> */}
 
                     <div className="mt-4 d-flex justify-content-end">
                         <Button

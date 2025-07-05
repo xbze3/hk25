@@ -1,36 +1,33 @@
 import express from 'express';
+import cors from 'cors';
 import dotenv from 'dotenv';
 import http from 'http';
 import { Server } from 'socket.io';
-import { scrape } from './scraper.js';  // Scraper fetches posts from news sites (without AI filtering)
-import { isRelevant } from './aiFilter.js';  // AI-based keyword relevance filter
-import { sendAlertEmail } from './mailer.js';  // Email notification sender
+
+import { scrape } from './scraper.js';
+import { isRelevant } from './aiFilter.js';
+import { sendAlertEmail } from './mailer.js';
 
 dotenv.config();
 
 const app = express();
 const server = http.createServer(app);
-const io = new Server(server, { cors: { origin: "*" } });
-
+app.use(cors());
 app.use(express.json());
 
-/**
- * POST /scan
- * Triggers scraping from a given news URL, applies AI keyword relevance filtering,
- * emits real-time alerts via Socket.IO, and optionally sends email notifications.
- *
- * Request body:
- * {
- *   url: string (required),
- *   keywords: string[] (required),
- *   email: string (optional),
- *   limit: number (optional, default: 10)
- * }
- */
+const io = new Server(server, {
+  cors: {
+    origin: '*',
+    methods: ['GET', 'POST']
+  }
+});
+
+// 🆕 Store matched posts in memory
+const storedIncidents = [];
+
 app.post('/scan', async (req, res) => {
   const { url, keywords = [], email, limit = 10 } = req.body;
 
-  // Basic request validation
   if (!url || !Array.isArray(keywords)) {
     return res.status(400).json({ error: 'Invalid request: url and keywords are required.' });
   }
@@ -38,7 +35,6 @@ app.post('/scan', async (req, res) => {
   console.log(`🔍 Starting scan for URL: ${url} with keywords: ${keywords.join(', ')}`);
 
   try {
-    // Fetch a broader set of posts from the site (to allow filtering down)
     const rawPosts = await scrape(url, [], limit * 3);
     console.log(`📄 Fetched ${rawPosts.length} posts from scraper.`);
 
@@ -47,14 +43,13 @@ app.post('/scan', async (req, res) => {
     for (const post of rawPosts) {
       if (matchedPosts.length >= limit) break;
 
-      // Use AI model to determine if the post is relevant
       const relevant = await isRelevant(post.description, keywords);
-      console.log(`🧠 AI filter result for post: "${post.description.slice(0, 50)}..." => ${relevant}`);
+      console.log(`🧠 AI filter result: "${post.description.slice(0, 50)}..." => ${relevant}`);
 
       if (relevant) {
         matchedPosts.push(post);
+        storedIncidents.push(post); // ✅ Store relevant posts
 
-        // Send email alert if email was provided
         if (email) {
           try {
             await sendAlertEmail(
@@ -67,9 +62,8 @@ app.post('/scan', async (req, res) => {
           }
         }
 
-        // Emit real-time alert to connected Socket.IO clients
         io.emit('alert', { ...post, timestamp: new Date().toISOString() });
-        console.log(`📡 Real-time alert emitted for post.`);
+        console.log(`📡 Real-time alert emitted.`);
       }
     }
 
@@ -82,7 +76,11 @@ app.post('/scan', async (req, res) => {
   }
 });
 
-// Start the server
+// ✅ Add GET /incidents to serve stored incidents to frontend
+app.get('/incidents', (req, res) => {
+  res.json(storedIncidents);
+});
+
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
