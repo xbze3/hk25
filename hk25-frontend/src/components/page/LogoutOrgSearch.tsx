@@ -2,6 +2,7 @@ import ListGroup from "react-bootstrap/ListGroup";
 import Button from "react-bootstrap/Button";
 import "../../components-css/ListItem.css";
 import "../../components-css/page-css/LogoutOrgSearch.css";
+import lookingForSomething from "../../assets/looking_for_something.svg";
 import LandingNavBar from "../LandingNavBar";
 import ReportModal from "../NoLogReportModel";
 import { useState } from "react";
@@ -98,6 +99,16 @@ function OrgListItem() {
                 handleClose={() => setShowModal(false)}
                 orgName={selectedOrg}
             />
+
+            {organizations.length === 0 && (
+                <div className="empty-search-container">
+                    <img
+                        src={lookingForSomething}
+                        alt="Looking for something?"
+                        className="empty-search-image"
+                    />
+                </div>
+            )}
         </>
     );
 }

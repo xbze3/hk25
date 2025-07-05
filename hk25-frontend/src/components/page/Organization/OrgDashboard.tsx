@@ -5,6 +5,14 @@ import NotificationBell from "../../OrgComponents/NotificationBell";
 import IncidentStatsGraph from "../../OrgComponents/IncidentStatsGraph";
 import "./../../../components-css/page-css/organization/OrgDashboard.css";
 import { jwtDecode } from "jwt-decode";
+import Container from "react-bootstrap/Container";
+import Navbar from "react-bootstrap/Navbar";
+import Nav from "react-bootstrap/Nav";
+import { Link } from "react-router-dom";
+import { Modal, ListGroup } from "react-bootstrap";
+
+import SG_LOGO from "../../../assets/sg_logo.svg";
+import "../../../components-css/NavBar.css";
 
 export interface Incident {
     _id?: string;
@@ -76,30 +84,101 @@ function OrgDashboard() {
     };
 
     return (
-        <div className="dashboard-container">
-            <header className="dashboard-header">
-                <h1>Incident Dashboard</h1>
-                <NotificationBell
-                    notifications={notifications}
-                    onClick={handleBellClick}
-                />
-            </header>
+        <>
+            <Navbar
+                expand="lg"
+                className="nav-navy"
+                data-bs-theme="dark"
+                collapseOnSelect
+            >
+                <Container fluid>
+                    <Navbar.Brand
+                        as={Link}
+                        to="/user/dashboard"
+                        id="navbar-brand"
+                    >
+                        <img src={SG_LOGO} alt="Safeguard LOGO" id="sg-logo" />
+                    </Navbar.Brand>
+                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                    <Navbar.Collapse
+                        id="basic-navbar-nav"
+                        className="justify-content-end"
+                    >
+                        <Nav className="align-items-center flex-column flex-lg-row">
+                            <Nav.Link>
+                                <NotificationBell
+                                    notifications={notifications}
+                                    onClick={handleBellClick}
+                                />
+                            </Nav.Link>
+                        </Nav>
+                    </Navbar.Collapse>
+                </Container>
+            </Navbar>
 
-            <main className="dashboard-main">
-                <IncidentStatsGraph incidents={validIncidents} />
+            <div className="dashboard-container">
+                <main className="dashboard-main">
+                    <section className="graph-grid">
+                        <div className="dashboard-chart-section">
+                            <IncidentStatsGraph incidents={validIncidents} />
+                        </div>
+                    </section>
+                </main>
+            </div>
 
-                {showIncidentFeed && (
-                    <IncidentFeed
-                        incidents={incidents}
-                        onSelect={setSelectedIncident}
-                    />
-                )}
+            <Modal
+                show={showIncidentFeed}
+                onHide={() => setShowIncidentFeed(false)}
+                centered
+                size="lg"
+            >
+                <Modal.Header closeButton>
+                    <Modal.Title>Incident Reports</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <ListGroup variant="flush">
+                        {incidents.map((incident) => (
+                            <ListGroup.Item
+                                key={incident._id}
+                                action
+                                onClick={() => {
+                                    setSelectedIncident(incident);
+                                    setShowIncidentFeed(false);
+                                }}
+                            >
+                                <div>
+                                    <strong>{incident.type}</strong>
+                                    <div className="text-muted small">
+                                        {incident.date
+                                            ? new Date(
+                                                  incident.date
+                                              ).toLocaleString()
+                                            : "No Date"}{" "}
+                                        – {incident.description}
+                                    </div>
+                                </div>
+                            </ListGroup.Item>
+                        ))}
+                    </ListGroup>
+                </Modal.Body>
+            </Modal>
 
-                {selectedIncident && (
-                    <IncidentDetail incident={selectedIncident} />
-                )}
-            </main>
-        </div>
+            <Modal
+                show={selectedIncident !== null}
+                onHide={() => setSelectedIncident(null)}
+                centered
+                size="lg"
+            >
+                <Modal.Header closeButton>
+                    <Modal.Title>Incident Details</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    {selectedIncident && (
+                        <IncidentDetail incident={selectedIncident} />
+                    )}
+                </Modal.Body>
+            </Modal>
+        </>
     );
 }
 
