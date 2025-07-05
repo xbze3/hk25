@@ -8,8 +8,7 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 8081;
-const MONGODB_URL =
-    process.env.MONGODB_URL || "mongodb://localhost:27017/safeguardgy";
+const MONGODB_URL = process.env.MONGODB_URL;
 
 app.use(express.json());
 app.use(cookieParser());
@@ -31,8 +30,8 @@ mongoose
 const authRoutes = require("./routes/authRoutes");
 const searchRoutes = require("./routes/searchRoutes");
 
-app.use("/api/auth", authRoutes);
-app.use("/api/orgs", searchRoutes);
+app.use("/", authRoutes);
+app.use("/", searchRoutes);
 
 app.listen(PORT, "0.0.0.0", () => {
     console.log(`SafeguardGY server listening on port ${PORT}`);
