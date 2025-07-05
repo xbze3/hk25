@@ -74,4 +74,20 @@ router.get("/user/my-reports", async (req, res) => {
     }
 });
 
+router.get("/reports/organization/:orgId", async (req, res) => {
+    const { orgId } = req.params;
+
+    try {
+        const reports = await Report.find({ organization: orgId }).sort({
+            createdAt: -1,
+        });
+
+        console.log(reports);
+        res.status(200).json(reports);
+    } catch (err) {
+        console.error("Error fetching reports for org:", err);
+        res.status(500).json({ message: "Failed to fetch reports" });
+    }
+});
+
 module.exports = router;

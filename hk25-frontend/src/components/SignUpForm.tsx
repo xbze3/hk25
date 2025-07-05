@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../components-css/SignUpForm.css";
 import sgOutline from "../assets/sg-outline-signup.svg";
@@ -24,6 +24,8 @@ function SignUpForm() {
 
     const [loading, setLoading] = useState(false);
     const [submitError, setSubmitError] = useState("");
+
+    const navigate = useNavigate();
 
     const validatePassword = (pwd: string) => {
         const hasUpperCase = /[A-Z]/.test(pwd);
@@ -100,7 +102,10 @@ function SignUpForm() {
 
                 const response = await axios.post(url, payload);
 
+                localStorage.setItem("authToken", response.data.token);
+
                 toast.success("Sign up successful!");
+                setTimeout(() => navigate("/login"), 1500);
 
                 setFirstName("");
                 setLastName("");

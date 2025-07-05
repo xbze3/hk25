@@ -13,7 +13,7 @@ import LoginForm from "./components/LoginForm.tsx";
 import UserDashboard from "./components/page/Users/UserDashboard.tsx";
 import UserMyReports from "./components/page/Users/UserMyReports.tsx";
 import MyOrganizations from "./components/page/Users/MyOrganizations.tsx";
-import OrgDashboard from "./components/page/organizations/OrgDashboard.tsx";
+import OrgDashboard from "./components/page/Organization/OrgDashboard.tsx";
 
 // import App from "./App.tsx";
 import "./index.css";
@@ -48,7 +48,7 @@ const router = createBrowserRouter([
         element: <MyOrganizations />,
     },
     {
-        path: "/user/orgdash",
+        path: "/org/dashboard",
         element: <OrgDashboard />,
     },
 ]);

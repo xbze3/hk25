@@ -9,6 +9,7 @@ interface DecodedToken {
     email: string;
     iat: number;
     exp: number;
+    userType: string;
 }
 
 interface Report {

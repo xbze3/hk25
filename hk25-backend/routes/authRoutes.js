@@ -11,27 +11,33 @@ router.post("/login", async (req, res) => {
     const { email, password } = req.body;
 
     try {
-        const user =
-            (await User.findOne({ email })) ||
-            (await Organization.findOne({ email }));
+        let user = await User.findOne({ email });
+        let userType = "user";
+
+        if (!user) {
+            user = await Organization.findOne({ email });
+            userType = "organization";
+        }
+
         if (!user) return res.status(404).json({ message: "User not found" });
 
         const isMatch = await bcrypt.compare(password, user.password);
-
-        console.log(isMatch);
-
         if (!isMatch)
             return res.status(401).json({ message: "Invalid credentials" });
 
         const token = jwt.sign(
-            { id: user._id, email: user.email, role: user.role },
-            JWT_SECRET,
             {
-                expiresIn: "1d",
-            }
+                id: user._id,
+                email: user.email,
+                userType,
+            },
+            process.env.JWT_SECRET,
+            { expiresIn: "1d" }
         );
+
         res.json({ token });
     } catch (err) {
+        console.error(err);
         res.status(500).json({ message: "Server error" });
     }
 });
