@@ -82,7 +82,6 @@ router.get("/reports/organization/:orgId", async (req, res) => {
             createdAt: -1,
         });
 
-        console.log(reports);
         res.status(200).json(reports);
     } catch (err) {
         console.error("Error fetching reports for org:", err);
