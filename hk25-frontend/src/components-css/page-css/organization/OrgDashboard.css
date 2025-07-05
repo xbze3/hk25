@@ -135,7 +135,6 @@ a:hover {
     position: relative;
 }
 
-/* Close button */
 .detail-header {
     display: flex;
     justify-content: space-between;
@@ -156,7 +155,6 @@ a:hover {
     color: #e53e3e;
 }
 
-/* Graph container */
 .graph-grid {
     margin-top: 2rem;
     display: grid;

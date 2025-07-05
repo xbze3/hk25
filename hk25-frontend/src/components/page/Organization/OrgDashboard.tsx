@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import IncidentFeed from "../../OrgComponents/IncidentFeed";
 import IncidentDetail from "../../OrgComponents/IncidentDetail";
 import NotificationBell from "../../OrgComponents/NotificationBell";
 import IncidentStatsGraph from "../../OrgComponents/IncidentStatsGraph";
@@ -17,10 +16,15 @@ import "../../../components-css/NavBar.css";
 export interface Incident {
     _id?: string;
     description: string;
+    title: string;
     link: string;
     type?: string;
     date?: string;
+    reportedBy?: {
+        email?: string;
+    };
     organizationId?: string;
+    createdAt: string;
 }
 
 interface DecodedToken {
@@ -130,7 +134,6 @@ function OrgDashboard() {
                 show={showIncidentFeed}
                 onHide={() => setShowIncidentFeed(false)}
                 centered
-                size="lg"
             >
                 <Modal.Header closeButton>
                     <Modal.Title>Incident Reports</Modal.Title>
@@ -148,9 +151,10 @@ function OrgDashboard() {
                                 <div>
                                     <strong>{incident.type}</strong>
                                     <div className="text-muted small">
-                                        {incident.date
+                                        {incident.title} -{" "}
+                                        {incident.createdAt
                                             ? new Date(
-                                                  incident.date
+                                                  incident.createdAt
                                               ).toLocaleString()
                                             : "No Date"}{" "}
                                         – {incident.description}

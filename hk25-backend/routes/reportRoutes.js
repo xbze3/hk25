@@ -78,9 +78,9 @@ router.get("/reports/organization/:orgId", async (req, res) => {
     const { orgId } = req.params;
 
     try {
-        const reports = await Report.find({ organization: orgId }).sort({
-            createdAt: -1,
-        });
+        const reports = await Report.find({ organization: orgId })
+            .sort({ createdAt: -1 })
+            .populate("reportedBy", "email");
 
         res.status(200).json(reports);
     } catch (err) {

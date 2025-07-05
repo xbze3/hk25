@@ -1,11 +1,20 @@
 import React from "react";
 import IncidentActions from "./IncidentActions";
-import { Card, Button } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import "../../components-css/page-css/organization/IncidentDeatils.css";
 
 type Incident = {
+    _id?: string;
     description: string;
+    title: string;
     link: string;
+    type?: string;
+    date?: string;
+    reportedBy?: {
+        email?: string;
+    };
+    organizationId?: string;
+    createdAt: string;
 };
 
 type IncidentDetailProps = {
@@ -17,23 +26,11 @@ const IncidentDetail: React.FC<IncidentDetailProps> = ({ incident }) => {
         <Card>
             <Card.Body>
                 <Card.Text>
-                    <strong>Description:</strong>
+                    <strong>Title: </strong> {incident.title} <br />
+                    <strong>Reported By: </strong> {incident.reportedBy?.email}{" "}
                     <br />
-                    {incident.description}
+                    <strong>Description: </strong> {incident.description} <br />
                 </Card.Text>
-
-                {/* <div className="mb-3">
-                    <strong>Reference Link:</strong>
-                    <br />
-                    <a
-                        href={incident.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="btn btn-outline-primary mt-2"
-                    >
-                        Open Link
-                    </a>
-                </div> */}
 
                 <div>
                     <IncidentActions incident={incident} />

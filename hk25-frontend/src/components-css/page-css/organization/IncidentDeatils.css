@@ -1,28 +1,47 @@
-.incident-detail {
-    background: #fff;
-    border-radius: 12px;
+.card {
+    border: none;
+    border-radius: 16px;
+    max-width: 800px;
+    background-color: #f9fafb;
 }
 
-.incident-detail h3 {
-    font-size: 1.4rem;
-    margin-bottom: 1rem;
+.card-body {
+    padding: 2rem;
 }
 
-.incident-detail a {
+.card-text {
+    font-size: 1rem;
+    color: #374151;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.card-text strong {
+    color: #1f2937;
+    font-weight: 600;
     display: inline-block;
-    color: #0d6efd;
-    text-decoration: none;
+    width: 120px;
 }
 
-#cate-button-actions,
-#send-button-actions {
-    color: white;
+.card-text br {
+    margin-bottom: 0.5rem;
 }
 
-#send-button-actions {
-    background-color: #ff6b35;
+.incident-detail-actions {
+    margin-top: 1.5rem;
 }
 
-#cate-button-actions {
-    background-color: rgb(162, 162, 162);
+@keyframes fadeInCard {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.card {
+    animation: fadeInCard 0.35s ease-in-out;
 }
