@@ -3,29 +3,25 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import "../components-css/SignUpForm.css";
 import sgOutline from "../assets/sg-outline-signup.svg";
+import { toast } from "react-toastify";
 
 function SignUpForm() {
     const [activeTab, setActiveTab] = useState<"user" | "organization">("user");
 
-    // User fields
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
 
-    // Organization fields
     const [orgName, setOrgName] = useState("");
     const [orgType, setOrgType] = useState("");
     const [orgLoc, setOrgLoc] = useState("");
     const [orgDesc, setOrgDesc] = useState("");
 
-    // Common fields
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
 
-    // Validation errors
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
-    // Submission status
     const [loading, setLoading] = useState(false);
     const [submitError, setSubmitError] = useState("");
 
@@ -104,10 +100,8 @@ function SignUpForm() {
 
                 const response = await axios.post(url, payload);
 
-                console.log(response);
+                toast.success("Sign up successful!");
 
-                alert("Sign up successful!");
-                // Optionally reset form here:
                 setFirstName("");
                 setLastName("");
                 setOrgName("");
@@ -119,15 +113,14 @@ function SignUpForm() {
                 setConfirmPassword("");
                 setErrors({});
             } catch (error: any) {
-                // Handle error response
                 if (
                     error.response &&
                     error.response.data &&
                     error.response.data.message
                 ) {
-                    setSubmitError(error.response.data.message);
+                    toast.error(error.response.data.message);
                 } else {
-                    setSubmitError("Signup failed. Please try again later.");
+                    toast.error("Signup failed. Please try again later.");
                 }
             } finally {
                 setLoading(false);

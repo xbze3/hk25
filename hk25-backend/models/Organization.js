@@ -38,10 +38,4 @@ const organizationSchema = new mongoose.Schema(
     { timestamps: true }
 );
 
-organizationSchema.pre("save", async function (next) {
-    if (!this.isModified("password")) return next();
-    this.password = await bcrypt.hash(this.password, 10);
-    next();
-});
-
 module.exports = mongoose.model("Organization", organizationSchema);
