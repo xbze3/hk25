@@ -113,7 +113,7 @@ function UserDashboard() {
                 orgName={selectedOrg}
             />
 
-            {!searchQuery && organizations.length === 0 && (
+            {organizations.length === 0 && (
                 <div className="empty-search-container">
                     <img
                         src={lookingForSomething}
