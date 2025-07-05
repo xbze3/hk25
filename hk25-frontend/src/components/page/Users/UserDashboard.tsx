@@ -3,6 +3,7 @@ import ListGroup from "react-bootstrap/ListGroup";
 import Button from "react-bootstrap/Button";
 import "../../../components-css/ListItem.css";
 import "../../../components-css/page-css/LogoutOrgSearch.css";
+import lookingForSomething from "../../../assets/looking_for_something.svg";
 import ReportModal from "./LogReportModel";
 import { useState } from "react";
 import axios from "axios";
@@ -110,6 +111,8 @@ function UserDashboard() {
                 handleClose={() => setShowModal(false)}
                 orgName={selectedOrg}
             />
+
+            <img src={lookingForSomething} alt="" />
         </>
     );
 }
