@@ -3,6 +3,7 @@ const router = express.Router();
 const Report = require("../models/Report");
 const Organization = require("../models/Organization");
 const User = require("../models/User");
+const jwt = require("jsonwebtoken");
 
 router.post("/report", async (req, res) => {
     try {
@@ -14,6 +15,8 @@ router.post("/report", async (req, res) => {
             organizationName,
             userEmail,
         } = req.body;
+
+        console.log(userEmail);
 
         const organization = await Organization.findOne({
             name: organizationName,
@@ -50,6 +53,26 @@ router.post("/report", async (req, res) => {
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: "Failed to submit report" });
+    }
+});
+
+router.get("/user/my-reports", async (req, res) => {
+    try {
+        const token = req.headers.authorization?.split(" ")[1];
+
+        if (!token)
+            return res.status(401).json({ message: "No token provided" });
+
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+        const reports = await Report.find({ reportedBy: decoded.id }).sort({
+            createdAt: -1,
+        });
+
+        res.status(200).json(reports);
+    } catch (err) {
+        console.error("Error fetching user reports:", err);
+        res.status(500).json({ message: "Server error" });
     }
 });
 

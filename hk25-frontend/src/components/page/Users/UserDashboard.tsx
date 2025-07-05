@@ -5,38 +5,38 @@ import "../../../components-css/ListItem.css";
 import "../../../components-css/page-css/LogoutOrgSearch.css";
 import ReportModal from "./LogReportModel";
 import { useState } from "react";
+import axios from "axios";
 
 function UserDashboard() {
     const [showModal, setShowModal] = useState(false);
     const [selectedOrg, setSelectedOrg] = useState("");
+    const [organizations, setOrganizations] = useState<any[]>([]);
+    const [searchQuery, setSearchQuery] = useState("");
 
     const handleOpenReport = (orgName: string) => {
         setSelectedOrg(orgName);
         setShowModal(true);
     };
 
-    const organizations = [
-        {
-            id: "1",
-            name: "Ministry of Health",
-            description:
-                "Responsible for national healthcare infrastructure and policy.",
-            contact: "health@gov.gy",
-        },
-        {
-            id: "2",
-            name: "Guyana Fire Service",
-            description: "Emergency services, fire prevention and response.",
-            contact: "fire@gov.gy",
-        },
-        {
-            id: "3",
-            name: "Guyana Power & Light",
-            description:
-                "Provider of national electricity services and maintenance.",
-            contact: "info@gplinc.com",
-        },
-    ];
+    const handleSearch = async () => {
+        if (!searchQuery.trim()) {
+            setOrganizations([]);
+            return;
+        }
+
+        try {
+            const response = await axios.get(
+                "http://localhost:8081/search/organizations",
+                {
+                    params: { name: searchQuery.trim() },
+                }
+            );
+            setOrganizations(response.data);
+        } catch (error) {
+            console.error("Failed to fetch organizations:", error);
+            setOrganizations([]);
+        }
+    };
 
     return (
         <>
@@ -48,14 +48,18 @@ function UserDashboard() {
                         type="text"
                         placeholder="Search for an organization..."
                         id="org-search-input"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
                     />
-                    <button id="org-search-button">Search</button>
+                    <button id="org-search-button" onClick={handleSearch}>
+                        Search
+                    </button>
                 </div>
             </div>
 
             <ListGroup variant="flush" id="result-group">
-                {organizations.map((org) => (
-                    <ListGroup.Item key={org.id} id="result-item">
+                {organizations.map((org: any) => (
+                    <ListGroup.Item key={org.id || org._id} id="result-item">
                         <div id="list-item-content">
                             <div
                                 className="d-flex flex-column pe-3"
@@ -64,11 +68,9 @@ function UserDashboard() {
                                 <h5 className="fw-bold mb-1" id="item-title">
                                     {org.name}
                                 </h5>
-
                                 <div className="mb-1 text-muted fst-italic">
-                                    {org.contact}
+                                    {org.location}
                                 </div>
-
                                 <div className="mb-1 text-muted fst-italic">
                                     {org.description}
                                 </div>
@@ -86,7 +88,7 @@ function UserDashboard() {
                                     Make Report
                                 </Button>
 
-                                {/* <Button
+                                <Button
                                     variant="success"
                                     id="result-item-view-button"
                                     onClick={() =>
@@ -97,16 +99,6 @@ function UserDashboard() {
                                 >
                                     Join Organization
                                 </Button>
-
-                                <Button
-                                    variant="outline-secondary"
-                                    id="result-item-view-button"
-                                    onClick={() =>
-                                        alert(`Viewing reports for ${org.name}`)
-                                    }
-                                >
-                                    View Reports
-                                </Button> */}
                             </div>
                         </div>
                     </ListGroup.Item>
