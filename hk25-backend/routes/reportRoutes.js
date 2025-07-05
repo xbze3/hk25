@@ -12,14 +12,24 @@ router.post("/report", async (req, res) => {
             details,
             isAnonymous,
             organizationName,
-            userId,
+            userEmail,
         } = req.body;
 
         const organization = await Organization.findOne({
             name: organizationName,
         });
+
         if (!organization) {
             return res.status(404).json({ message: "Organization not found" });
+        }
+
+        let reportedBy = null;
+        if (!isAnonymous && userEmail) {
+            const user = await User.findOne({ email: userEmail.toLowerCase() });
+            if (!user) {
+                return res.status(404).json({ message: "User not found" });
+            }
+            reportedBy = user._id;
         }
 
         const newReport = new Report({
@@ -32,7 +42,7 @@ router.post("/report", async (req, res) => {
                 : undefined,
             isAnonymous,
             organization: organization._id,
-            reportedBy: isAnonymous ? null : userId || null,
+            reportedBy: reportedBy,
         });
 
         await newReport.save();
