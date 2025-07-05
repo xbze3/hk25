@@ -12,12 +12,19 @@ interface LogReportModalProps {
     orgName: string;
 }
 
+interface DecodedToken {
+    id: string;
+    email: string;
+    iat: number;
+    exp: number;
+}
+
 function LogReportModal({ show, handleClose, orgName }: LogReportModalProps) {
     const [form, setForm] = useState({
         severity: "Low",
         location: null as [number, number] | null,
         details: "",
-        isAnonymous: true,
+        isAnonymous: false,
         media: null as File | null,
     });
 
@@ -27,7 +34,7 @@ function LogReportModal({ show, handleClose, orgName }: LogReportModalProps) {
         const token = localStorage.getItem("authToken");
         if (token) {
             try {
-                const decoded: any = jwtDecode(token);
+                const decoded = jwtDecode(token) as DecodedToken;
                 setUserEmail(decoded.email || null);
             } catch (err) {
                 console.error("Failed to decode JWT:", err);
