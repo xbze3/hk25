@@ -1,0 +1,217 @@
+#landing-header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 20px;
+    gap: 20px;
+}
+
+#image-wrapper {
+    background-image: url("https://www.pixelstalk.net/wp-content/uploads/2016/06/Light-blue-wallpaper-hd-quality.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+#header-image-div {
+    flex: 1 1 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#header-image {
+    width: 80%;
+    max-width: 300px;
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.1));
+}
+
+#title-and-search {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    flex: 1 1 300px;
+    gap: 16px;
+}
+
+#header-title-div {
+    width: 100%;
+}
+
+#header-title {
+    font-size: 3rem;
+    max-width: 600px;
+    color: #003049;
+    font-weight: 700;
+    margin: 0px 60px;
+}
+
+#header-search-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 30px;
+}
+
+.about-us {
+    padding: 40px 20px;
+    max-width: 800px;
+    margin: 0px auto;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #1f2937;
+    text-align: center;
+}
+
+.footer {
+    background: #005b96;
+    padding: 30px 0px;
+    font-family: "Play", sans-serif;
+    text-align: center;
+    color: white;
+}
+
+.footer .row {
+    width: 100%;
+    padding: 0.6% 0%;
+    color: gray;
+    font-size: 0.8em;
+}
+
+.footer .row a {
+    text-decoration: none;
+    color: gray;
+    transition: 0.5s;
+}
+
+.footer .row a:hover {
+    color: #fff;
+}
+
+.footer .row ul {
+    width: 100%;
+}
+
+.footer .row ul li {
+    display: inline-block;
+    margin: 0px 30px;
+}
+
+.footer .row a i {
+    font-size: 2em;
+    margin: 0% 1%;
+}
+
+.rowIMG {
+    display: flex;
+    justify-content: space-around;
+}
+
+.rowIMG {
+    font-size: 50px;
+}
+
+.rowIMG > a {
+    color: #fff;
+}
+
+/* #org-search-input {
+    padding: 14px 20px;
+    font-size: 1rem;
+    border: 2px solid #005b96;
+    border-radius: 10px;
+    width: 380px;
+    max-width: 90%;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    background-color: #ffffff;
+    box-shadow: 0 2px 6px rgba(0, 91, 150, 0.05);
+} */
+
+/* #org-search-input:focus {
+    border-color: #ff6b35;
+    box-shadow: 0 0 8px rgba(255, 107, 53, 0.3);
+} */
+
+#org-search-button-landing {
+    padding: 14px 26px;
+    border: 0px;
+    border-radius: 40px;
+    width: 200px;
+    font-size: 1rem;
+    font-weight: bold;
+    background-color: #ff6b35;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    text-decoration: none;
+}
+
+#org-search-button:hover {
+    background-color: #e85c28;
+    transform: translateY(-1px);
+}
+
+.section-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 60px 0 30px;
+    flex-wrap: wrap;
+}
+
+.divider-line {
+    flex-grow: 1;
+    height: 1px;
+    background-color: #ccc;
+    margin: 0 20px;
+    min-width: 50px;
+}
+
+.divider-text {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #003049;
+    white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+    #landing-header {
+        text-align: center;
+        gap: 32px;
+    }
+
+    #header-title {
+        font-size: 2.25rem;
+    }
+
+    /* #org-search-input {
+        width: 100%;
+    } */
+
+    #org-search-button {
+        width: 30%;
+        margin-top: 20px;
+    }
+
+    #header-search-div {
+        flex-direction: column;
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    #header-image {
+        width: 100%;
+        max-width: 220px;
+    }
+
+    #header-title {
+        font-size: 1.75rem;
+    }
+}

@@ -1,0 +1,56 @@
+#navbar-brand {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 20px;
+}
+#sg-logo {
+    height: 50px;
+    margin-right: 10px;
+}
+
+#sg-logo-emblem {
+    height: 30px;
+}
+
+.nav-navy {
+    background-color: #005b96 !important;
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
+
+#landing-login,
+#landing-signup {
+    border-radius: 10px;
+    font-weight: bold;
+    color: white;
+    padding: 12px 20px;
+    font-size: 1rem;
+    margin: 5px 5px;
+    text-align: center;
+    transition: background-color 0.2s ease-in-out;
+}
+
+#landing-login {
+    border: 2px solid white;
+    background-color: transparent;
+}
+
+#landing-signup {
+    background-color: #ff6b35;
+    border: none;
+}
+
+#landing-login:hover {
+    background-color: #004d81;
+}
+
+@media (max-width: 768px) {
+    #landing-login,
+    #landing-signup {
+        width: 100%;
+        margin: 5px 0;
+        font-size: 0.95rem;
+        padding: 10px 15px;
+    }
+}

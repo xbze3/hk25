@@ -1,0 +1,178 @@
+#signup-wrapper {
+    margin: 3rem auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.page-wrapper {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    padding: 2rem;
+    background-color: #f0f2f5;
+}
+
+.signup-container {
+    max-width: 500px;
+    width: 100%;
+    padding: 2rem;
+    background: #f9f9f9;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.signup-form .form-group {
+    margin-bottom: 1.25rem;
+}
+
+.signup-form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.signup-form input {
+    width: 100%;
+    padding: 0.6rem 0.75rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    transition: border-color 0.2s;
+}
+
+.signup-form input:focus {
+    outline: none;
+    border-color: #001f3f;
+}
+
+.note {
+    font-size: 0.85rem;
+    color: #6c757d;
+    margin-top: 0.25rem;
+}
+
+.error-box {
+    background: #ffe5e5;
+    border: 1px solid #ff9999;
+    padding: 0.75rem;
+    border-radius: 6px;
+    color: #cc0000;
+    margin-bottom: 1rem;
+}
+
+.success-box {
+    background: #e6ffee;
+    border: 1px solid #66cc99;
+    padding: 0.75rem;
+    border-radius: 6px;
+    color: #006644;
+    margin-bottom: 1rem;
+}
+
+.submit-button {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
+    background-color: #ff6b35;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.submit-button:hover {
+    background: #ff8559;
+}
+
+#banner-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+#case-bank-banner {
+    height: 70px;
+}
+
+#back-button {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: #3e92cc;
+    padding: 10px 20px;
+    border: 2px solid #3e92cc;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+#back-button:hover {
+    background: #3e92cc;
+    color: white;
+}
+
+.signup-tabs {
+    display: flex;
+    width: 100%;
+    margin-bottom: 0;
+}
+
+.signup-tab {
+    flex: 1;
+    text-align: center;
+    padding: 12px 0;
+    background-color: #f9f9f9;
+    color: #000000;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 0;
+    border: 0px;
+}
+
+.signup-tab:hover {
+    background-color: #ffe3d5;
+}
+
+.signup-tab.active {
+    background-color: #ff6b35;
+    color: white;
+}
+
+@media (max-width: 600px) {
+    .signup-container {
+        padding: 1.5rem;
+    }
+
+    .signup-form input {
+        padding: 0.5rem 0.6rem;
+        font-size: 0.95rem;
+    }
+
+    #case-bank-banner {
+        height: 50px;
+    }
+
+    .submit-button {
+        padding: 0.6rem;
+        font-size: 0.95rem;
+    }
+
+    .note {
+        font-size: 0.8rem;
+    }
+
+    .signup-tabs {
+        flex-direction: row;
+        width: 100%;
+    }
+
+    .signup-tab {
+        font-size: 0.9rem;
+        padding: 10px 0;
+    }
+}
