@@ -1,0 +1,50 @@
+.incident-actions {
+    background-color: #ffffff;
+    color: black;
+    padding: 1rem;
+    max-width: 700px;
+    margin: 1.5rem auto;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.incident-actions textarea {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 0.95rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    resize: vertical;
+    transition: border-color 0.3s ease;
+}
+
+.incident-actions textarea:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.incident-actions button {
+    padding: 0.5rem 1.25rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    /* color: #fff; */
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.incident-actions button:first-of-type {
+    background-color: #f59e0b;
+}
+
+.incident-actions button:first-of-type:hover {
+    background-color: #d97706;
+}
+
+.incident-actions button:last-of-type {
+    background-color: #2563eb;
+}
+
+.incident-actions button:last-of-type:hover {
+    background-color: #1e40af;
+}

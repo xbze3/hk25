@@ -14,7 +14,7 @@ type IncidentDetailProps = {
 
 const IncidentDetail: React.FC<IncidentDetailProps> = ({ incident }) => {
     return (
-        <Card className="shadow-sm border-0 p-3">
+        <Card>
             <Card.Body>
                 <Card.Text>
                     <strong>Description:</strong>

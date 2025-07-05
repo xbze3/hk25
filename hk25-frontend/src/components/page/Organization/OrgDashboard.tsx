@@ -143,7 +143,6 @@ function OrgDashboard() {
                                 action
                                 onClick={() => {
                                     setSelectedIncident(incident);
-                                    setShowIncidentFeed(false);
                                 }}
                             >
                                 <div>
