@@ -16,8 +16,6 @@ router.post("/report", async (req, res) => {
             userEmail,
         } = req.body;
 
-        console.log(userEmail);
-
         const organization = await Organization.findOne({
             name: organizationName,
         });

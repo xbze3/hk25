@@ -1,0 +1,22 @@
+.empty-search-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 30px;
+    padding: 20px;
+    text-align: center;
+}
+
+.empty-search-image {
+    max-width: 80%;
+    width: 80%;
+    height: auto;
+    opacity: 0.85;
+}
+
+.empty-search-text {
+    margin-top: 20px;
+    font-size: 1.2rem;
+    color: #555;
+}
