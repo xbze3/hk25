@@ -13,6 +13,7 @@ import LoginForm from "./components/LoginForm.tsx";
 import UserDashboard from "./components/page/Users/UserDashboard.tsx";
 import UserMyReports from "./components/page/Users/UserMyReports.tsx";
 import MyOrganizations from "./components/page/Users/MyOrganizations.tsx";
+import OrgDashboard from "./components/page/organizations/OrgDashboard.tsx";
 
 // import App from "./App.tsx";
 import "./index.css";
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
     {
         path: "/user/my-organizations",
         element: <MyOrganizations />,
+    },
+    {
+        path: "/user/orgdash",
+        element: <OrgDashboard />,
     },
 ]);
 
