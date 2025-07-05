@@ -29,8 +29,10 @@ mongoose
 
 const authRoutes = require("./routes/authRoutes");
 const searchRoutes = require("./routes/searchRoutes");
+const reportRoutes = require("./routes/reportRoutes");
 
 app.use("/", authRoutes);
+app.use("/", reportRoutes);
 app.use("/", searchRoutes);
 
 app.listen(PORT, "0.0.0.0", () => {

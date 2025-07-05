@@ -32,7 +32,7 @@ function LoginForm() {
             localStorage.setItem("authToken", response.data.token);
 
             toast.success("Login successful!");
-            setTimeout(() => navigate("/dashboard"), 1500);
+            // setTimeout(() => navigate("/dashboard"), 1500);
         } catch (err: any) {
             if (
                 err.response &&

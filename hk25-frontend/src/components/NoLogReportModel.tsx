@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import "../components-css/ReportModel.css";
 import ReportMap from "./ReportMap";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 interface ReportModalProps {
     show: boolean;
@@ -38,10 +40,31 @@ function ReportModal({ show, handleClose, orgName }: ReportModalProps) {
         }));
     };
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log("Report submitted:", { ...form, organization: orgName });
-        handleClose();
+
+        try {
+            const payload = {
+                severity: form.severity,
+                location: form.location,
+                details: form.details,
+                isAnonymous: form.isAnonymous,
+                organizationName: orgName,
+                userId: !form.isAnonymous
+                    ? localStorage.getItem("userId")
+                    : null,
+            };
+
+            const res = await axios.post(
+                "http://localhost:8081/report",
+                payload
+            );
+            toast.success("Report submitted successfully.");
+            handleClose();
+        } catch (err: any) {
+            console.error(err);
+            toast.error("Failed to submit report.");
+        }
     };
 
     return (
