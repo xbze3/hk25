@@ -35,7 +35,13 @@ function UserNavBar() {
                             My Organizations
                         </Nav.Link> */}
 
-                        <Nav.Link as={Link} to="/user/logout">
+                        <Nav.Link
+                            as={Link}
+                            to="/"
+                            onClick={() => {
+                                localStorage.removeItem("authToken");
+                            }}
+                        >
                             Logout
                         </Nav.Link>
                     </Nav>

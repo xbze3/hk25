@@ -15,7 +15,7 @@ app.use(cookieParser());
 
 const corsOptions = {
     origin: ["http://localhost:5173", "http://192.168.1.24:5173"],
-    methods: ["GET", "POST", "PUT"],
+    methods: ["GET", "POST", "PUT", "PATCH"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
 };

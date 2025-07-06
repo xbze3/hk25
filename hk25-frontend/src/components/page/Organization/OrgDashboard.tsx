@@ -14,7 +14,7 @@ import SG_LOGO from "../../../assets/sg_logo.svg";
 import "../../../components-css/NavBar.css";
 
 export interface Incident {
-    _id?: string;
+    _id: string;
     description: string;
     title: string;
     link: string;
@@ -29,6 +29,7 @@ export interface Incident {
         lat: number;
         lng: number;
     };
+    status?: string;
 }
 
 interface DecodedToken {
@@ -113,6 +114,15 @@ function OrgDashboard() {
                         className="justify-content-end"
                     >
                         <Nav className="align-items-center flex-column flex-lg-row">
+                            <Nav.Link
+                                as={Link}
+                                to="/"
+                                onClick={() => {
+                                    localStorage.removeItem("authToken");
+                                }}
+                            >
+                                Logout
+                            </Nav.Link>
                             <Nav.Link>
                                 <NotificationBell
                                     notifications={notifications}
@@ -138,6 +148,7 @@ function OrgDashboard() {
                 show={showIncidentFeed}
                 onHide={() => setShowIncidentFeed(false)}
                 centered
+                size="lg"
             >
                 <Modal.Header closeButton>
                     <Modal.Title>Incident Reports</Modal.Title>
@@ -148,20 +159,31 @@ function OrgDashboard() {
                             <ListGroup.Item
                                 key={incident._id}
                                 action
-                                onClick={() => {
-                                    setSelectedIncident(incident);
-                                }}
+                                onClick={() => setSelectedIncident(incident)}
                             >
                                 <div>
                                     <strong>{incident.type}</strong>
                                     <div className="text-muted small">
-                                        {incident.title} -{" "}
+                                        {incident.title} –{" "}
                                         {incident.createdAt
                                             ? new Date(
                                                   incident.createdAt
                                               ).toLocaleString()
-                                            : "No Date"}{" "}
-                                        – {incident.description}
+                                            : "No Date"}
+                                        {" – "}
+                                        {incident.description}
+                                        {" – "}
+                                        {incident.status}
+                                        {incident.status === "Resolved" && (
+                                            <span
+                                                style={{
+                                                    color: "green",
+                                                    marginLeft: "0.5rem",
+                                                }}
+                                            >
+                                                ✔
+                                            </span>
+                                        )}
                                     </div>
                                 </div>
                             </ListGroup.Item>
