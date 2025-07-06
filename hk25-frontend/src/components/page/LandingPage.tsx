@@ -26,7 +26,7 @@ function LandingPage() {
                                 to="/logout-search"
                                 id="org-search-button-landing"
                             >
-                                Search
+                                Make a Report
                             </Link>
                         </div>
                     </div>

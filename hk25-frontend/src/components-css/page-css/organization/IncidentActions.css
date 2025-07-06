@@ -1,0 +1,92 @@
+.incident-actions {
+    background-color: #f9fafb;
+    border-radius: 16px;
+    padding: 2rem;
+    max-width: 700px;
+    margin: 2rem auto;
+    font-family: "Inter", "Segoe UI", sans-serif;
+}
+
+.incident-actions h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 1rem;
+}
+
+.incident-actions p {
+    color: #4b5563;
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+}
+
+.incident-actions textarea {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1rem;
+    font-family: inherit;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    background-color: #fff;
+    resize: vertical;
+    min-height: 120px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.incident-actions textarea:focus {
+    border-color: #3b82f6;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+.incident-actions .button-group {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.incident-actions button {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.25s ease, transform 0.15s ease;
+}
+
+.incident-actions button:first-of-type {
+    background-color: #f59e0b;
+    color: white;
+}
+
+.incident-actions button:first-of-type:hover {
+    background-color: #d97706;
+    transform: translateY(-1px);
+}
+
+.incident-actions button:last-of-type {
+    background-color: #3b82f6;
+    color: white;
+}
+
+.incident-actions button:last-of-type:hover {
+    background-color: #2563eb;
+    transform: translateY(-1px);
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.incident-actions {
+    animation: fadeInUp 0.3s ease-out;
+}

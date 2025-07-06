@@ -5,6 +5,15 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../components-css/LoginForm.css";
 import sgOutline from "../assets/sg-outline-login.svg";
+import { jwtDecode } from "jwt-decode";
+
+interface DecodedToken {
+    id: string;
+    email: string;
+    iat: number;
+    exp: number;
+    userType: string;
+}
 
 function LoginForm() {
     const [email, setEmail] = useState("");
@@ -29,10 +38,23 @@ function LoginForm() {
                 password,
             });
 
-            localStorage.setItem("authToken", response.data.token);
+            const token = response.data.token;
+            localStorage.setItem("authToken", token);
+
+            const decoded = jwtDecode(token) as DecodedToken;
+            const userType = decoded.userType;
 
             toast.success("Login successful!");
-            setTimeout(() => navigate("/user/dashboard"), 1500);
+
+            setTimeout(() => {
+                if (userType === "user") {
+                    navigate("/user/dashboard");
+                } else if (userType === "organization") {
+                    navigate("/org/dashboard");
+                } else {
+                    navigate("/");
+                }
+            }, 1500);
         } catch (err: any) {
             if (
                 err.response &&

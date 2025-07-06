@@ -16,8 +16,6 @@ router.post("/report", async (req, res) => {
             userEmail,
         } = req.body;
 
-        console.log(userEmail);
-
         const organization = await Organization.findOne({
             name: organizationName,
         });
@@ -73,6 +71,21 @@ router.get("/user/my-reports", async (req, res) => {
     } catch (err) {
         console.error("Error fetching user reports:", err);
         res.status(500).json({ message: "Server error" });
+    }
+});
+
+router.get("/reports/organization/:orgId", async (req, res) => {
+    const { orgId } = req.params;
+
+    try {
+        const reports = await Report.find({ organization: orgId })
+            .sort({ createdAt: -1 })
+            .populate("reportedBy", "email");
+
+        res.status(200).json(reports);
+    } catch (err) {
+        console.error("Error fetching reports for org:", err);
+        res.status(500).json({ message: "Failed to fetch reports" });
     }
 });
 

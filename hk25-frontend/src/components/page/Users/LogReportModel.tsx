@@ -5,6 +5,7 @@ import ReportMap from "../../ReportMap";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { jwtDecode } from "jwt-decode";
+import { useDictation } from "../../../hooks/useDictation";
 
 interface LogReportModalProps {
     show: boolean;
@@ -20,11 +21,13 @@ interface DecodedToken {
 }
 
 function LogReportModal({ show, handleClose, orgName }: LogReportModalProps) {
+    const { text: dictatedDetails, startDictation, listening } = useDictation();
+
     const [form, setForm] = useState({
         severity: "Low",
         location: null as [number, number] | null,
         details: "",
-        isAnonymous: false,
+        isAnonymous: true,
         media: null as File | null,
     });
 
@@ -42,6 +45,15 @@ function LogReportModal({ show, handleClose, orgName }: LogReportModalProps) {
             }
         }
     }, []);
+
+    useEffect(() => {
+        if (dictatedDetails && !form.details) {
+            setForm((prev) => ({
+                ...prev,
+                details: dictatedDetails,
+            }));
+        }
+    }, [dictatedDetails]);
 
     const handleChange = (
         e: React.ChangeEvent<
@@ -129,8 +141,49 @@ function LogReportModal({ show, handleClose, orgName }: LogReportModalProps) {
                             name="details"
                             placeholder="Describe the incident..."
                             value={form.details}
-                            onChange={handleChange}
+                            onChange={(e) =>
+                                setForm((prev) => ({
+                                    ...prev,
+                                    details: e.target.value,
+                                }))
+                            }
                             required
+                        />
+                        <Button
+                            type="button"
+                            onClick={startDictation}
+                            className={`mt-2 dictation-button ${
+                                listening ? "listening" : ""
+                            }`}
+                        >
+                            {listening ? "Listening..." : "Start Dictation"}
+                        </Button>
+                        {/* {dictatedDetails && (
+                            <Form.Text className="text-info d-block mt-2">
+                                🗣 You said: <em>{dictatedDetails}</em>
+                            </Form.Text>
+                        )} */}
+                    </Form.Group>
+
+                    <Form.Group className="mb-3">
+                        <Form.Label>Attach Media (Optional)</Form.Label>
+                        <Form.Control
+                            type="file"
+                            name="media"
+                            accept="image/*,video/*"
+                        />
+                        <Form.Text className="text-muted">
+                            Supported: .jpg, .png, .mp4
+                        </Form.Text>
+                    </Form.Group>
+
+                    <Form.Group className="mb-3">
+                        <Form.Check
+                            type="checkbox"
+                            name="isAnonymous"
+                            checked={form.isAnonymous}
+                            onChange={handleChange}
+                            label="Submit anonymously"
                         />
                     </Form.Group>
 

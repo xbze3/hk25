@@ -3,6 +3,8 @@ import ListGroup from "react-bootstrap/ListGroup";
 import Button from "react-bootstrap/Button";
 import "../../../components-css/ListItem.css";
 import "../../../components-css/page-css/LogoutOrgSearch.css";
+import "../../../components-css/page-css/UserDashboard.css";
+import lookingForSomething from "../../../assets/looking_for_something.svg";
 import ReportModal from "./LogReportModel";
 import { useState } from "react";
 import axios from "axios";
@@ -110,6 +112,16 @@ function UserDashboard() {
                 handleClose={() => setShowModal(false)}
                 orgName={selectedOrg}
             />
+
+            {organizations.length === 0 && (
+                <div className="empty-search-container">
+                    <img
+                        src={lookingForSomething}
+                        alt="Looking for something?"
+                        className="empty-search-image"
+                    />
+                </div>
+            )}
         </>
     );
 }

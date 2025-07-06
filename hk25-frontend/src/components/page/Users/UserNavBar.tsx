@@ -31,9 +31,9 @@ function UserNavBar() {
                         <Nav.Link as={Link} to="/user/reports">
                             My Reports
                         </Nav.Link>
-                        <Nav.Link as={Link} to="/user/my-organizations">
+                        {/* <Nav.Link as={Link} to="/user/my-organizations">
                             My Organizations
-                        </Nav.Link>
+                        </Nav.Link> */}
 
                         <Nav.Link as={Link} to="/user/logout">
                             Logout
