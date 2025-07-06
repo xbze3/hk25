@@ -4,7 +4,7 @@ import { Card } from "react-bootstrap";
 import "../../components-css/page-css/organization/IncidentDeatils.css";
 
 type Incident = {
-    _id?: string;
+    _id: string;
     description: string;
     title: string;
     link: string;
@@ -19,6 +19,7 @@ type Incident = {
         lat?: number;
         lng?: number;
     };
+    status?: string;
 };
 
 type IncidentDetailProps = {
@@ -32,6 +33,7 @@ const IncidentDetail: React.FC<IncidentDetailProps> = ({ incident }) => {
         <Card>
             <Card.Body>
                 <Card.Text>
+                    <strong>Status: </strong> {incident.status} <br />
                     <strong>Title: </strong> {incident.title} <br />
                     <strong>Reported By: </strong>{" "}
                     {incident.reportedBy?.email ?? "null"} <br />

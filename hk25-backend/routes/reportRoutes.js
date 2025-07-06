@@ -89,4 +89,28 @@ router.get("/reports/organization/:orgId", async (req, res) => {
     }
 });
 
+router.patch("/report/mark-resolved/:id", async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const report = await Report.findByIdAndUpdate(
+            id,
+            { status: "Resolved" },
+            { new: true }
+        );
+
+        if (!report) {
+            return res.status(404).json({ message: "Report not found" });
+        }
+
+        res.status(200).json({
+            message: "Report status updated to Resolved",
+            report,
+        });
+    } catch (err) {
+        console.error("Error updating report status:", err);
+        res.status(500).json({ message: "Failed to update report status" });
+    }
+});
+
 module.exports = router;
