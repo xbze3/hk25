@@ -64,5 +64,5 @@ async function sendPostRequests() {
 // Run immediately on script start
 sendPostRequests();
 
-// Schedule to run every 3 minutes (180,000 milliseconds)
+// Schedule to run every 3 minutes (180,000 milliseconds) (should be set for 30hrs for production)
 setInterval(sendPostRequests, 180000);

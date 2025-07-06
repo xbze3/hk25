@@ -3,7 +3,6 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import http from 'http';
 import { Server } from 'socket.io';
-
 import { scrape } from './scraper.js';
 import { isRelevant } from './aiFilter.js';
 import { sendAlertEmail } from './mailer.js';
@@ -22,7 +21,7 @@ const io = new Server(server, {
   }
 });
 
-// 🆕 Store matched posts in memory
+// Store matched posts in memory
 const storedIncidents = [];
 
 app.post('/scan', async (req, res) => {
@@ -48,7 +47,7 @@ app.post('/scan', async (req, res) => {
 
       if (relevant) {
         matchedPosts.push(post);
-        storedIncidents.push(post); // ✅ Store relevant posts
+        storedIncidents.push(post); 
 
         if (email) {
           try {

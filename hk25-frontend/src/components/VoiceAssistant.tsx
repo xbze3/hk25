@@ -1,9 +1,9 @@
 import  { useState } from 'react';
 
-// Custom type fix for SpeechRecognition
+
 declare global {
   interface Window {
-    webkitSpeechRecognition: any;
+   // webkitSpeechRecognition: any;
   }
 }
 

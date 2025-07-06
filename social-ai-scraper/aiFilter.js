@@ -1,5 +1,4 @@
 import fetch from 'node-fetch';
-
 /**
  * Uses LLaMA3 (via Ollama) to determine whether a post is relevant based on provided keywords.
  * Sends a natural language prompt and expects a strict "yes" or "no" response.
@@ -20,7 +19,7 @@ ${postText}
 
   try {
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 15000); // Timeout after 15 seconds
+    const timeoutId = setTimeout(() => controller.abort(), 15000); 
 
     const response = await fetch('http://127.0.0.1:11434/api/generate', {
       method: 'POST',
@@ -40,10 +39,8 @@ ${postText}
     }
 
     const data = await response.json();
-
     const answer = (data?.response || '').trim().toLowerCase();
 
-    // Expect a strict "yes" or "no" answer from the model
     if (answer.includes('yes')) return true;
     if (answer.includes('no')) return false;
 
