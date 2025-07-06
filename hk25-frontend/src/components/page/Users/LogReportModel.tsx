@@ -46,7 +46,6 @@ function LogReportModal({ show, handleClose, orgName }: LogReportModalProps) {
         }
     }, []);
 
-    // ✅ Sync dictated text into form only if user hasn’t typed anything
     useEffect(() => {
         if (dictatedDetails && !form.details) {
             setForm((prev) => ({

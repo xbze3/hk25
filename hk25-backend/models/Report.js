@@ -32,8 +32,8 @@ const reportSchema = new mongoose.Schema(
             required: true,
         },
         location: {
-            lat: { type: Number },
-            lng: { type: Number },
+            lat: Number,
+            lng: Number,
         },
         attachments: [
             {

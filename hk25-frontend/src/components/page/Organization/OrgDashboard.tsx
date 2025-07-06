@@ -25,6 +25,10 @@ export interface Incident {
     };
     organizationId?: string;
     createdAt: string;
+    location: {
+        lat: number;
+        lng: number;
+    };
 }
 
 interface DecodedToken {
