@@ -8,7 +8,7 @@ import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import { Link } from "react-router-dom";
-import { Modal, ListGroup } from "react-bootstrap";
+import { Modal, ListGroup, Button, ButtonGroup } from "react-bootstrap";
 
 import SG_LOGO from "../../../assets/sg_logo.svg";
 import "../../../components-css/NavBar.css";
@@ -48,6 +48,9 @@ function OrgDashboard() {
     const [notifications, setNotifications] = useState<Incident[]>([]);
     const [showIncidentFeed, setShowIncidentFeed] = useState(false);
     const [orgId, setOrgId] = useState<string | null>(null);
+    const [activeList, setActiveList] = useState<"incidents" | "users">(
+        "incidents"
+    );
 
     useEffect(() => {
         const token = localStorage.getItem("authToken");
@@ -117,9 +120,9 @@ function OrgDashboard() {
                             <Nav.Link
                                 as={Link}
                                 to="/"
-                                onClick={() => {
-                                    localStorage.removeItem("authToken");
-                                }}
+                                onClick={() =>
+                                    localStorage.removeItem("authToken")
+                                }
                             >
                                 Logout
                             </Nav.Link>
@@ -154,41 +157,72 @@ function OrgDashboard() {
                     <Modal.Title>Incident Reports</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <ListGroup variant="flush">
-                        {incidents.map((incident) => (
-                            <ListGroup.Item
-                                key={incident._id}
-                                action
-                                onClick={() => setSelectedIncident(incident)}
+                    <div id="switch-button-wrapper">
+                        <ButtonGroup className="mb-3">
+                            <Button
+                                variant={
+                                    activeList === "incidents"
+                                        ? "primary"
+                                        : "outline-primary"
+                                }
+                                onClick={() => setActiveList("incidents")}
                             >
-                                <div>
-                                    <strong>{incident.type}</strong>
-                                    <div className="text-muted small">
-                                        {incident.title} –{" "}
-                                        {incident.createdAt
-                                            ? new Date(
-                                                  incident.createdAt
-                                              ).toLocaleString()
-                                            : "No Date"}
-                                        {" – "}
-                                        {incident.description}
-                                        {" – "}
-                                        {incident.status}
-                                        {incident.status === "Resolved" && (
-                                            <span
-                                                style={{
-                                                    color: "green",
-                                                    marginLeft: "0.5rem",
-                                                }}
-                                            >
-                                                ✔
-                                            </span>
-                                        )}
+                                View Reported Incidents
+                            </Button>
+                            <Button
+                                variant={
+                                    activeList === "users"
+                                        ? "primary"
+                                        : "outline-primary"
+                                }
+                                onClick={() => setActiveList("users")}
+                            >
+                                View AI scraped incidents
+                            </Button>
+                        </ButtonGroup>
+                    </div>
+
+                    {activeList === "incidents" ? (
+                        <ListGroup variant="flush">
+                            {incidents.map((incident) => (
+                                <ListGroup.Item
+                                    key={incident._id}
+                                    action
+                                    onClick={() =>
+                                        setSelectedIncident(incident)
+                                    }
+                                >
+                                    <div>
+                                        <strong>{incident.type}</strong>
+                                        <div className="text-muted small">
+                                            {incident.title} –{" "}
+                                            {incident.createdAt
+                                                ? new Date(
+                                                      incident.createdAt
+                                                  ).toLocaleString()
+                                                : "No Date"}{" "}
+                                            – {incident.description} –{" "}
+                                            {incident.status}
+                                            {incident.status === "Resolved" && (
+                                                <span
+                                                    style={{
+                                                        color: "green",
+                                                        marginLeft: "0.5rem",
+                                                    }}
+                                                >
+                                                    ✔
+                                                </span>
+                                            )}
+                                        </div>
                                     </div>
-                                </div>
-                            </ListGroup.Item>
-                        ))}
-                    </ListGroup>
+                                </ListGroup.Item>
+                            ))}
+                        </ListGroup>
+                    ) : (
+                        <div>
+                            /* Render user data from another route here */
+                        </div>
+                    )}
                 </Modal.Body>
             </Modal>
 
