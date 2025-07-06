@@ -160,8 +160,3 @@ a:hover {
     display: grid;
     gap: 1.5rem;
 }
-
-#switch-button-wrapper {
-    display: flex;
-    justify-content: center;
-}

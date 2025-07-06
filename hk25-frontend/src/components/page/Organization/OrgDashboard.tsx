@@ -173,7 +173,7 @@ function OrgDashboard() {
         </Modal.Header>
         <Modal.Body>
           <div id="switch-button-wrapper" className="d-flex justify-content-between align-items-center">
-            <ButtonGroup className="mb-3">
+            <ButtonGroup className="mb-3" id="report-button-wrapper">
               <Button
                 variant={activeList === "incidents" ? "primary" : "outline-primary"}
                 onClick={() => setActiveList("incidents")}
@@ -222,26 +222,27 @@ function OrgDashboard() {
               ))}
             </ListGroup>
           ) : (
-            <ListGroup variant="flush">
-              {newsIncidents.map((incident) => (
-                <ListGroup.Item
-                  key={incident._id}
-                  action
-                  onClick={() => setSelectedIncident(incident)}
-                >
-                  <div>
-                    <strong>{incident.type || "N/A"}</strong>
-                    <div className="text-muted small">
-                      {incident.title} –{" "}
-                      {incident.createdAt
-                        ? new Date(incident.createdAt).toLocaleString()
-                        : "No Date"}{" "}
-                      – {incident.description || "No description"}
-                    </div>
-                  </div>
-                </ListGroup.Item>
-              ))}
-            </ListGroup>
+              <ListGroup variant="flush">
+                {newsIncidents
+                    .filter((incident) => incident.description !== "Submit")
+                    .map((incident) => (
+                        <ListGroup.Item
+                            key={incident._id}
+                            action
+                            as="a"
+                            href={incident.link || "#"}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                          <div>
+                            <div className="text-muted small">
+                              {incident.description || "No description"}
+                            </div>
+                          </div>
+                        </ListGroup.Item>
+                    ))}
+              </ListGroup>
+
           )}
         </Modal.Body>
       </Modal>

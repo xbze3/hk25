@@ -7,7 +7,7 @@ const urls = [
 ];
 
 // Email to receive notifications or results
-const email = 'clarencelucius98@gmail.com';
+const email = 'tioarrindell@gmail.com';
 
 // Maximum number of relevant posts to retrieve per site
 const limit = 5;
@@ -65,4 +65,4 @@ async function sendPostRequests() {
 sendPostRequests();
 
 // Schedule to run every 3 minutes (180,000 milliseconds) (should be set for 30hrs for production)
-setInterval(sendPostRequests, 180000);
+setInterval(sendPostRequests, 86400000);
